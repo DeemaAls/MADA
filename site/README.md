@@ -1,0 +1,26 @@
+# مدى · MADA
+
+نموذج أولي لمتابعة مدى حركة المفاصل عند أطفال الروماتيزم (JIA) بكاميرا الجوال، مع بوابة للطبيب وتطبيق للطفل وولي الأمر.
+
+## الملفات
+| الملف | الوظيفة |
+|---|---|
+| `index.html` | الموقع كامل (ملف واحد) |
+| `config.js` | إعدادات المزامنة (Supabase) |
+| `sw.js` و `manifest.webmanifest` و `icons/` | تثبيت التطبيق على الجوال والعمل بدون إنترنت |
+| `_headers` | إعدادات الأمان على Netlify (CSP) |
+| `supabase.sql` و `SUPABASE-SETUP.md` | تشغيل المزامنة بين جهازين |
+| `models/` و `vendor/` | نسخة محلية اختيارية من نموذج MediaPipe |
+
+## أهم المزايا
+- قياس الزاوية بالكاميرا داخل الجهاز (MediaPipe Pose و Hand) مع مؤشر جودة القياس، وتنبيه إذا الطفل مو واقف من الجنب، وتعليمات صوتية بالعربي.
+- صفحة اختبار الدقة: مقارنة مع الجونيوميتر، متوسط الخطأ، ICC(2,1)، رسم Bland-Altman، وتصدير CSV.
+- القيم المرجعية للأطفال من دراسة CDC (Soucie وآخرون 2011) على منحنيات الطبيب، ومقارنة اليمين مع اليسار.
+- تقرير PDF، وتصدير FHIR R4.
+
+## النشر
+ارفعي محتوى هذا المجلد على Netlify (تبويب Deploys، ثم اسحبي الملف وأفلتيه).
+
+## المصادر
+- CDC Normal Joint Range of Motion Study: https://archive.cdc.gov/www_cdc_gov/ncbddd/jointrom/index.html
+- Koo TK, Li MY. A Guideline of Selecting and Reporting Intraclass Correlation Coefficients. J Chiropr Med 2016.
