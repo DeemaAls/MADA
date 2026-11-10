@@ -549,10 +549,6 @@ details.parent .in{padding:6px 16px 14px}
 .lstate{position:absolute;top:12px;inset-inline:12px;z-index:3;display:flex;justify-content:center}
 .lstate span{background:rgba(20,14,50,.75);color:#fff;border-radius:99px;padding:7px 14px;font-weight:700;font-size:14px;display:flex;gap:6px;align-items:center}
 .lstate span.ok{background:#16A34A}.lstate span.warn{background:#D97706}
-.acc-setup{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:12px;align-items:end}
-.accgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.accgrid .symbox{background:var(--tile);display:grid;gap:4px}.accgrid b{font-size:24px;color:var(--primary)}
-#accCam:empty{display:none}#accBA svg{max-width:680px;max-height:340px;margin-inline:auto;display:block}input.flash{animation:fl .6s}@keyframes fl{0%{background:#DCFCE7}100%{background:#fff}}
-@media (max-width:760px){.acc-setup{grid-template-columns:1fr 1fr}.acc-setup .fld:first-child{grid-column:1/-1}}
 .mvv video{width:100%;max-height:62vh;border-radius:16px;background:#F3F0FE;display:block}
 .mvp{display:grid;gap:10px}.mvp-stage{position:relative;background:linear-gradient(180deg,#F3F0FE,#ECE7FD);border-radius:16px;display:grid;place-items:center;padding:8px;aspect-ratio:1/1;max-height:360px;width:100%;margin-inline:auto}
 .mvp-fig{width:100%;height:100%;display:grid;place-items:center}.mvp-fig svg{height:100%;max-height:330px;width:auto;max-width:100%}
@@ -568,7 +564,7 @@ details.parent .in{padding:6px 16px 14px}
 .qual{display:grid;gap:6px;background:var(--tile);border-radius:12px;padding:10px 12px;text-align:right}
 .qual b{font-size:18px}.qbar{height:8px;border-radius:99px;background:#E6E3F3;overflow:hidden}.qbar i{display:block;height:100%;border-radius:99px;background:#A8A3C4;transition:width .25s}
 .qual.good b{color:var(--ok)}.qual.good .qbar i{background:var(--ok)}.qual.mid b{color:#C27C0E}.qual.mid .qbar i{background:#F2B33D}.qual.low b{color:var(--bad)}.qual.low .qbar i{background:var(--bad)}
-.howto{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.howto{display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:10px}
 .howto div{background:var(--tile);border-radius:14px;padding:12px 8px;text-align:center;display:grid;gap:6px;justify-items:center;font-size:12.5px;font-weight:700}
 .howto i{font-style:normal;font-size:26px}
 .cam-simple{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;align-items:start}
@@ -970,8 +966,7 @@ const COACH={
     {sel:'.side [data-nav="patients"]',m:'.mnav [data-nav="patients"]',i:'users',t:'المرضى',d:'افتح ملف أي مريض لتنشئ له خطة متابعة أو تشوف تطور حالته.'},
     {sel:'.side [data-nav="alerts"]',m:'.mnav [data-nav="alerts"]',i:'bell',t:'التنبيهات',d:'ينبهك النظام تلقائيًا لو انخفض مدى الحركة، أو زاد الألم، أو فاتت جرعات.'},
     {sel:'.side [data-nav="msgs"]',m:'.mnav [data-nav="msgs"]',i:'mail',t:'الرسائل',d:'تواصل مع أولياء الأمور، واطلب تقييمًا إضافيًا عند الحاجة.'},
-    {sel:'.side [data-nav="res"]',m:'.mnav [data-more]',i:'book',t:'الموارد',d:'الفيديوهات التعليمية لكل حركة، وموارد ترسلها للطفل.',mt:'المزيد',md:'هنا تلقى الموارد، واختبار الدقة، وخطط المتابعة، والإعدادات.'},
-    {sel:'.side [data-nav="accuracy"]',skipMobile:1,i:'target',t:'اختبار الدقة',d:'قارن قراءة الكاميرا بقراءة الجونيوميتر، والنظام يحسب متوسط الخطأ ومعامل التوافق ICC مباشرة.'},
+    {sel:'.side [data-nav="res"]',m:'.mnav [data-more]',i:'book',t:'الموارد',d:'الفيديوهات التعليمية لكل حركة، وموارد ترسلها للطفل.',mt:'المزيد',md:'هنا تلقى الموارد، وخطط المتابعة، والإعدادات.'},
     {sel:'.side [data-nav="settings"]',skipMobile:1,i:'gear',t:'الإعدادات',d:'حدد متى ينبهك النظام: مقدار انخفاض المدى، حد الألم، وعدد الجرعات الفائتة.'},
     {sel:'.topbar .helpbtn',m:'.mhead .helpbtn',i:'help',t:'تحتاج مساعدة؟',d:'اضغط على ؟ في أي وقت لتعيد هذه الجولة.'}],
   kid:[
@@ -1039,7 +1034,7 @@ document.addEventListener('click',e=>{
   const g=e.target.closest('[data-go]');if(g){e.preventDefault();go(g.dataset.go);return}
   const tb=e.target.closest('[data-tour]');if(tb){showTour(tb.dataset.tour);return}
   const mo=e.target.closest('[data-more]');if(mo){const doc=mo.dataset.more==='doc';
-    const items=doc?[['book','الموارد','res'],['target','اختبار الدقة','accuracy'],['clip','خطط المتابعة','plans'],['gear','الإعدادات','settings']]:[['bars','مستواي','reports'],['book','الموارد','res'],['gear','الإعدادات','settings']];
+    const items=doc?[['book','الموارد','res'],['clip','خطط المتابعة','plans'],['gear','الإعدادات','settings']]:[['bars','مستواي','reports'],['book','الموارد','res'],['gear','الإعدادات','settings']];
     modal(`<b class="h" style="font-size:18px">المزيد</b><div class="more-list">${items.map(([i,l,k])=>`<button data-nav="${k}">${ic(i)}${l}</button>`).join('')}<button data-go="${doc?'kid':'doc'}">${ic('swap')}الانتقال إلى ${doc?'واجهة الطفل / ولي الأمر':'واجهة الطبيب'}</button><button data-go="landing">${ic('logout')}تسجيل الخروج</button></div>`);return}
   if(e.target.closest('#modalBack [data-nav]'))closeModal();
   const t=e.target.closest('[data-toast]');if(t){e.preventDefault();toast(t.dataset.toast);return}
@@ -1241,7 +1236,7 @@ function timeline(p){const nd=nextDay();return `<div class="tl">${planDays(p).ma
 /* ================= shell ================= */
 function shell(kind,active,inner){
   const doc=kind==='doc';
-  const nav=doc?[['home','الرئيسية','dash'],['users','المرضى','patients'],['bell','التنبيهات','alerts'],['mail','الرسائل','msgs'],['book','الموارد','res'],['target','اختبار الدقة','accuracy'],['gear','الإعدادات','settings']]
+  const nav=doc?[['home','الرئيسية','dash'],['users','المرضى','patients'],['bell','التنبيهات','alerts'],['mail','الرسائل','msgs'],['book','الموارد','res'],['gear','الإعدادات','settings']]
     :[['home','الرئيسية','home'],['camera','تقييماتي','assess'],['pill','أدويتي','meds'],['bars','مستواي','reports'],['mail','الرسائل','msgs'],['book','الموارد','res'],['gear','الإعدادات','settings']];
   const unread=S.alerts.filter(a=>!a.read).length;const kidUnread=(S.kidUnread||0);
   return `<div class="portal"><aside class="side">${LOGO(22)}
@@ -1249,7 +1244,7 @@ function shell(kind,active,inner){
     <div class="sp"></div><a href="#" data-go="landing">${ic('logout')}تسجيل الخروج</a></aside>
     <header class="mhead">${LOGO(18)}<span class="sp"></span><button class="helpbtn" data-tour="${kind}" aria-label="كيف أستخدم مدى؟" style="width:36px;height:36px">؟</button><button class="sw2" data-go="${doc?'kid':'doc'}">${ic('swap')}${doc?'الطفل':'الطبيب'}</button>${doc?`<button class="ib" aria-label="التنبيهات" data-nav="alerts">${ic('bell')}${unread?'<span class="dot"></span>':''}</button><span class="ico" style="width:34px;height:34px;border-radius:50%">${ic('doctor')}</span>`:`<button class="ib" aria-label="الإشعارات" data-notifs>${ic('bell')}<span class="dot"></span></button>${avatar(W0().av)}`}</header>
     <main class="main">${inner}</main>
-    <nav class="mnav" aria-label="التنقل">${(doc?[['home','الرئيسية','dash'],['users','المرضى','patients'],['bell','التنبيهات','alerts'],['mail','الرسائل','msgs']]:[['home','الرئيسية','home'],['camera','تقييماتي','assess'],['pill','أدويتي','meds'],['mail','الرسائل','msgs']]).map(([i,l,k])=>`<button data-nav="${k}" class="${active===k?'on':''}">${ic(i)}${l}${doc&&k==='alerts'&&unread?`<span class="badge">${unread}</span>`:''}${!doc&&k==='msgs'&&kidUnread?`<span class="badge">${kidUnread}</span>`:''}</button>`).join('')}<button data-more="${kind}" class="${(doc?['res','settings','accuracy']:['reports','res','settings']).includes(active)?'on':''}">${ic('grid')}المزيد</button></nav></div>`;
+    <nav class="mnav" aria-label="التنقل">${(doc?[['home','الرئيسية','dash'],['users','المرضى','patients'],['bell','التنبيهات','alerts'],['mail','الرسائل','msgs']]:[['home','الرئيسية','home'],['camera','تقييماتي','assess'],['pill','أدويتي','meds'],['mail','الرسائل','msgs']]).map(([i,l,k])=>`<button data-nav="${k}" class="${active===k?'on':''}">${ic(i)}${l}${doc&&k==='alerts'&&unread?`<span class="badge">${unread}</span>`:''}${!doc&&k==='msgs'&&kidUnread?`<span class="badge">${kidUnread}</span>`:''}</button>`).join('')}<button data-more="${kind}" class="${(doc?['res','settings']:['reports','res','settings']).includes(active)?'on':''}">${ic('grid')}المزيد</button></nav></div>`;
 }
 const topRight=(doc)=>`<button class="helpbtn" data-tour="${doc?'doc':'kid'}" aria-label="كيف أستخدم مدى؟" title="كيف أستخدم مدى؟">؟</button>`+(doc?`<button class="ib" aria-label="التنبيهات" data-nav="alerts">${ic('bell')}${S.alerts.some(a=>!a.read)?'<span class="dot"></span>':''}</button><span class="userchip"><span class="ico" style="width:32px;height:32px;border-radius:50%">${ic('doctor')}</span>د. مدى الجعيد ${ic('down','chev')}</span>`
   :`<button class="ib" aria-label="الإشعارات" data-notifs>${ic('bell')}<span class="dot"></span></button><span class="userchip">${avatar(W0().av)}وتين أحمد ${ic('down','chev')}</span>`);
@@ -1258,12 +1253,12 @@ const topRight=(doc)=>`<button class="helpbtn" data-tour="${doc?'doc':'kid'}" ar
 const D={W:null};
 D.render=function(){
   const d=R.D;let inner='';
-  const pages={dash:D.dash,patients:D.patients,patient:D.patient,wizard:D.wizard,plans:D.plans,assessall:D.assessall,alerts:D.alerts,msgs:D.msgs,res:D.res,settings:D.settings,accuracy:D.accuracy};
+  const pages={dash:D.dash,patients:D.patients,patient:D.patient,wizard:D.wizard,plans:D.plans,assessall:D.assessall,alerts:D.alerts,msgs:D.msgs,res:D.res,settings:D.settings};
   inner=(pages[d.page]||D.dash)();
   const act=['patient','wizard','plans','assessall'].includes(d.page)?'patients':d.page;
   return shell('doc',act,inner);
 };
-D.re=function(){K.cleanup();$('#root').innerHTML=D.render();$('#root').insertAdjacentHTML('beforeend',demoPill('doc'));FX.counters($('#root'));if(R.D.page==='accuracy')D.accAfter();if(R.D.page==='settings')APP.paint()};
+D.re=function(){K.cleanup();$('#root').innerHTML=D.render();$('#root').insertAdjacentHTML('beforeend',demoPill('doc'));FX.counters($('#root'));if(R.D.page==='settings')APP.paint()};
 D.patients=function(){
   const a=adherence();
   const rows=S.patients.map(p=>{
@@ -1333,74 +1328,6 @@ D.tab_summary=function(){
       <div class="fld"><label>ملاحظات الطبيب</label><div class="small" style="background:var(--tile);border-radius:10px;padding:10px">تحسّن في حركة الركبة. الاستجابة جيدة للعلاج.</div></div></div></div>
   </div>`;
 };
-/* ===== Accuracy test: camera vs goniometer (agreement statistics) ===== */
-const ACC={load(){try{return JSON.parse(localStorage.getItem('mada_acc')||'[]')}catch(e){return []}},save(a){try{localStorage.setItem('mada_acc',JSON.stringify(a))}catch(e){}}};
-S.acc=ACC.load();R.D.acc={mv:'knee_flex',side:'right',pid:'P01',cam:null,q:null,cam_on:false};
-const accStats=rows=>{const n=rows.length;if(!n)return null;const d=rows.map(r=>r.cam-r.gon),bias=d.reduce((s,x)=>s+x,0)/n,mae=d.reduce((s,x)=>s+Math.abs(x),0)/n;
-  const sd=n>1?Math.sqrt(d.reduce((s,x)=>s+(x-bias)**2,0)/(n-1)):0;let icc=null;
-  if(n>=3){const k=2,X=rows.map(r=>[r.cam,r.gon]),gm=X.flat().reduce((s,x)=>s+x,0)/(n*k),rm=X.map(r=>(r[0]+r[1])/2),cm=[0,1].map(j=>X.reduce((s,r)=>s+r[j],0)/n);
-    const MSR=k*rm.reduce((s,m)=>s+(m-gm)**2,0)/(n-1),MSC=n*cm.reduce((s,m)=>s+(m-gm)**2,0)/(k-1);let SSE=0;X.forEach((r,i)=>r.forEach((x,j)=>{SSE+=(x-rm[i]-cm[j]+gm)**2}));const MSE=SSE/((n-1)*(k-1));
-    const den=MSR+(k-1)*MSE+k*(MSC-MSE)/n;icc=den>0?(MSR-MSE)/den:null}
-  return {n,bias,mae,sd,lo:bias-1.96*sd,hi:bias+1.96*sd,icc,within5:d.filter(x=>Math.abs(x)<=5).length/n}};
-const iccLabel=v=>v==null?['gray','يحتاج 3 قراءات على الأقل']:v>=.9?['ok','ممتاز']:v>=.75?['ok','جيد']:v>=.5?['warn','متوسط']:['bad','ضعيف'];
-function blandAltman(rows,st){const Wd=460,H=240,pl=44,pr=16,pt=16,pb=34;if(!rows.length)return `<div class="muted small" style="padding:30px;text-align:center">يظهر الرسم بعد أول قراءة</div>`;
-  const m=rows.map(r=>(r.cam+r.gon)/2),d=rows.map(r=>r.cam-r.gon);const x0=Math.floor(Math.min(...m)/10)*10-10,x1=Math.ceil(Math.max(...m)/10)*10+10;const lim=Math.max(10,Math.ceil(Math.max(...d.map(Math.abs),Math.abs(st.lo),Math.abs(st.hi))/5)*5+5);
-  const X=v=>pl+(Wd-pl-pr)*(v-x0)/(x1-x0),Y=v=>pt+(H-pt-pb)*(1-(v+lim)/(2*lim));let g='';
-  for(let v=-lim;v<=lim;v+=Math.max(5,Math.round(lim/4/5)*5))g+=`<line x1="${pl}" x2="${Wd-pr}" y1="${Y(v)}" y2="${Y(v)}" stroke="#F0EEF7"/><text class="ax" x="${pl-6}" y="${Y(v)+3}" text-anchor="end">${v}</text>`;
-  const step=Math.max(10,Math.round((x1-x0)/5/10)*10);for(let v=x0;v<=x1;v+=step)g+=`<text class="ax" x="${X(v)}" y="${H-16}" text-anchor="middle">${v}</text>`;
-  const hl=(v,c,l,dash)=>`<line x1="${pl}" x2="${Wd-pr}" y1="${Y(v)}" y2="${Y(v)}" stroke="${c}" stroke-width="1.6" ${dash?'stroke-dasharray="5 4"':''}/><text x="${Wd-pr-2}" y="${Y(v)-4}" text-anchor="end" font-size="10.5" font-weight="700" fill="${c}" font-family="Cairo,sans-serif">${l}</text>`;
-  return `<svg viewBox="0 0 ${Wd} ${H}" direction="ltr" role="img" aria-label="رسم بلاند-ألتمان"><line x1="${pl}" x2="${Wd-pr}" y1="${Y(0)}" y2="${Y(0)}" stroke="#C9C5DE"/>${g}${rows.length>1?hl(st.hi,'#D23C55','+1.96SD '+st.hi.toFixed(1)+'°',1)+hl(st.lo,'#D23C55','−1.96SD '+st.lo.toFixed(1)+'°',1):''}${hl(st.bias,'#5B3FE0','الانحياز '+st.bias.toFixed(1)+'°')}
-  ${m.map((v,i)=>`<circle cx="${X(v)}" cy="${Y(d[i])}" r="4.5" fill="#5B3FE0" fill-opacity=".75" stroke="#fff"/>`).join('')}
-  <text class="ax" x="${(pl+Wd-pr)/2}" y="${H-2}" text-anchor="middle">متوسط القراءتين (°)</text><text class="ax" transform="translate(11 ${(pt+H-pb)/2}) rotate(-90)" text-anchor="middle">الكاميرا − الجونيوميتر (°)</text></svg>`}
-const ACC_MV=()=>Object.keys(LIVE).map(k=>{const [j,m]=k.split('_');return {k,j,m,ar:mvOf(j,m).ar,jar:JOINTS[j].ar}});
-D.accuracy=function(){const A=R.D.acc,[j,m]=A.mv.split('_'),M=mvOf(j,m);const rows=S.acc.filter(r=>r.mv===A.mv);
-  return `<div class="topbar"><h1>اختبار الدقة</h1><span class="sp"></span>${topRight(true)}</div>
-  <div class="note">${ic('info')} طريقة الاختبار: الطفل يثبّت المفصل، المقيّم يقيس بالجونيوميتر، وبنفس اللحظة تلتقط الكاميرا القراءة. كرر مع أكثر من مشارك وأكثر من زاوية. النتائج تُحفظ في هذا الجهاز ويمكن تصديرها CSV.</div>
-  <div class="card acc-setup"><div class="fld"><label for="accMv">الحركة</label><select id="accMv">${ACC_MV().map(o=>`<option value="${o.k}" ${o.k===A.mv?'selected':''}>${o.jar} · ${o.ar}</option>`).join('')}</select></div>
-    <div class="fld"><label for="accSide">الجهة</label><select id="accSide"><option value="right" ${A.side==='right'?'selected':''}>اليمين</option><option value="left" ${A.side==='left'?'selected':''}>اليسار</option></select></div>
-    <div class="fld"><label for="accPid">رمز المشارك</label><input id="accPid" value="${A.pid}" maxlength="12"></div>
-    <div class="fld" style="align-self:end">${A.cam_on?`<button class="btn white" data-acccam="0">${ic('x')} إيقاف الكاميرا</button>`:`<button class="btn" data-acccam="1">${ic('camera')} تشغيل الكاميرا</button>`}</div></div>
-  <div id="accCam">${A.cam_on?'':`<div class="card" style="text-align:center;padding:26px;display:grid;gap:8px;justify-items:center">${fig(M.f).replace('<svg','<svg style="height:120px"')}<b class="h">${M.ar} · ${A.side==='right'?'اليمين':'اليسار'}</b><span class="muted small">شغّل الكاميرا لالتقاط القراءة، أو اكتب القراءتين يدويًا</span></div>`}</div>
-  <div class="split" style="align-items:start">
-    <div class="card" style="display:grid;gap:12px"><div class="card-h" style="margin:0"><span class="ico">${ic('target')}</span><div class="t"><b>تسجيل قراءة</b><span>${M.ar} · ${A.side==='right'?'اليمين':'اليسار'} · المشارك ${A.pid}</span></div></div>
-      <div class="g2"><div class="fld"><label for="accCamV">قراءة الكاميرا (°)</label><input id="accCamV" type="number" inputmode="decimal" min="0" max="200" step="0.5" value="${A.cam??''}" placeholder="تُعبّأ عند الالتقاط"></div>
-      <div class="fld"><label for="accGon">قراءة الجونيوميتر (°)</label><input id="accGon" type="number" inputmode="decimal" min="0" max="200" step="0.5" placeholder="مثال: 120"></div></div>
-      <div class="muted tiny" id="accQ">${A.q?`جودة القياس عند الالتقاط: ${A.q}٪`:'المصدر: إدخال يدوي إذا لم تُلتقط من الكاميرا'}</div>
-      <button class="btn lg" data-accsave>${ic('save')} حفظ القراءة</button></div>
-    <div class="card" id="accStats"></div></div>
-  <div class="card"><div class="card-h"><span class="ico">${ic('bars')}</span><div class="t"><b>رسم بلاند-ألتمان</b><span>Bland–Altman · كل نقطة قراءة: الفرق مقابل المتوسط</span></div></div><div class="chart" id="accBA"></div></div>
-  <div class="card"><div class="card-h"><span class="ico">${ic('doc')}</span><div class="t"><b>القراءات المسجلة</b><span id="accN"></span></div>
-    <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn out" data-acccsv>${ic('dl')} تصدير CSV</button><button class="btn white" data-accdemo>بيانات مثال</button><button class="btn white" data-accclear>${ic('trash')} مسح ${M.ar}</button></div></div>
-    <div class="scroll-x" id="accTbl"></div></div>`};
-D.accRefresh=function(){const A=R.D.acc,rows=S.acc.filter(r=>r.mv===A.mv),st=accStats(rows);const [j,m]=A.mv.split('_'),M=mvOf(j,m);
-  const s=$('#accStats');if(!s)return;const [cls,lab]=iccLabel(st&&st.icc);
-  s.innerHTML=`<div class="card-h" style="margin:0 0 10px"><span class="ico">${ic('trend')}</span><div class="t"><b>النتيجة المباشرة</b><span>${M.ar} · ${rows.length} قراءة</span></div></div>
-  ${st?`<div class="accgrid"><div class="symbox"><span class="muted small">متوسط الخطأ المطلق (MAE)</span><b class="ltr">${st.mae.toFixed(1)}°</b></div>
-  <div class="symbox"><span class="muted small">معامل التوافق ICC(2,1)</span><b class="ltr">${st.icc==null?'—':st.icc.toFixed(3)}</b><span class="pill ${cls}">${lab}</span></div>
-  <div class="symbox"><span class="muted small">الانحياز (متوسط الفرق)</span><b class="ltr">${st.bias>=0?'+':''}${st.bias.toFixed(1)}°</b></div>
-  <div class="symbox"><span class="muted small">حدود التوافق 95٪</span><b class="ltr" style="font-size:17px">${rows.length>1?`${st.lo.toFixed(1)}° إلى ${st.hi.toFixed(1)}°`:'—'}</b></div></div>
-  <div class="muted small" style="margin-top:10px">${Math.round(st.within5*100)}٪ من القراءات ضمن ±5° من الجونيوميتر. تفسير ICC حسب Koo & Li (2016): أقل من 0.5 ضعيف، 0.5–0.75 متوسط، 0.75–0.9 جيد، فوق 0.9 ممتاز.</div>`
-  :`<div class="muted" style="padding:20px 0">سجّل أول قراءة لتظهر النتائج هنا.</div>`}`;
-  $('#accBA').innerHTML=blandAltman(rows,st||{});$('#accN').textContent=`${rows.length} قراءة لهذه الحركة · ${S.acc.length} إجمالًا`;
-  $('#accTbl').innerHTML=rows.length?`<table class="table"><thead><tr><th>#</th><th>المشارك</th><th>الجهة</th><th>الكاميرا</th><th>الجونيوميتر</th><th>الفرق</th><th>الجودة</th><th>الوقت</th><th></th></tr></thead><tbody>${rows.slice().reverse().map((r,i)=>{const d=r.cam-r.gon;return `<tr><td>${rows.length-i}</td><td>${r.pid}${r.demo?' <span class="pill gray">مثال</span>':''}</td><td>${r.side==='right'?'يمين':'يسار'}</td><td><span class="ltr">${r.cam}°</span></td><td><span class="ltr">${r.gon}°</span></td><td><span class="pill ${Math.abs(d)<=5?'ok':Math.abs(d)<=10?'warn':'bad'} ltr">${d>0?'+':''}${Math.round(d*10)/10}°</span></td><td>${r.q?r.q+'٪':'يدوي'}</td><td class="muted tiny">${new Date(r.at).toLocaleString('ar-SA-u-nu-latn',{dateStyle:'short',timeStyle:'short'})}</td><td><button class="link" data-accdel="${r.id}" aria-label="حذف">${ic('x')}</button></td></tr>`}).join('')}</tbody></table>`:'<div class="muted small">لا توجد قراءات بعد.</div>'};
-D.accAfter=function(){const A=R.D.acc;D.accRefresh();
-  const sel=$('#accMv');if(sel)sel.onchange=()=>{A.mv=sel.value;A.cam=null;A.q=null;D.re()};const sd=$('#accSide');if(sd)sd.onchange=()=>{A.side=sd.value;D.re()};const pi=$('#accPid');if(pi)pi.oninput=()=>{A.pid=pi.value.trim()||'P01'};
-  if(A.cam_on){const [j,m]=A.mv.split('_');const M=mvOf(j,m);const C={test:true,side:A.side,onCapture:({v,q})=>{A.cam=v;A.q=q;const i=$('#accCamV');if(i){i.value=v;i.classList.add('flash');setTimeout(()=>i.classList.remove('flash'),600)}$('#accQ').textContent=`جودة القياس عند الالتقاط: ${q}٪`;const g=$('#accGon');g&&g.focus()}};
-    K.live($('#accCam'),'',C,{j,m,s:A.side},M)}};
-D.accClick=function(e){const t=e.target;let el;const A=R.D.acc;
-  if(el=t.closest('[data-acccam]')){A.cam_on=el.dataset.acccam==='1';D.re();return true}
-  if(t.closest('[data-accsave]')){const c=parseFloat($('#accCamV').value),g=parseFloat($('#accGon').value);
-    if(!(c>=0&&c<=200)){toast('اكتب قراءة الكاميرا أو التقطها');$('#accCamV').focus();return true}if(!(g>=0&&g<=200)){toast('اكتب قراءة الجونيوميتر');$('#accGon').focus();return true}
-    const fromCam=A.cam!=null&&Math.abs(c-A.cam)<.01;S.acc.push({id:Date.now(),at:new Date().toISOString(),pid:A.pid,mv:A.mv,side:A.side,cam:c,gon:g,q:fromCam?A.q:null,src:fromCam?'live':'manual'});ACC.save(S.acc);
-    A.cam=null;A.q=null;$('#accCamV').value='';$('#accGon').value='';$('#accQ').textContent='تم الحفظ. التقط القراءة التالية.';D.accRefresh();toast('تم حفظ القراءة');return true}
-  if(el=t.closest('[data-accdel]')){S.acc=S.acc.filter(r=>r.id!=el.dataset.accdel);ACC.save(S.acc);D.accRefresh();return true}
-  if(t.closest('[data-accclear]')){const n=S.acc.filter(r=>r.mv===A.mv).length;if(!n)return true;modal(`<b class="h" style="font-size:18px">مسح ${n} قراءة؟</b><span class="muted">سيتم حذف كل قراءات هذه الحركة من هذا الجهاز. صدّر CSV أولًا إذا تحتاجها.</span><div class="row" style="gap:8px"><button class="btn" id="accYes" style="background:var(--bad)">${ic('trash')} مسح</button><button class="btn white" data-close>إلغاء</button></div>`,b=>{$('#accYes',b).onclick=()=>{S.acc=S.acc.filter(r=>r.mv!==A.mv);ACC.save(S.acc);closeModal();D.accRefresh();toast('تم المسح')}});return true}
-  if(t.closest('[data-accdemo]')){let seed=7;const rnd=()=>{seed=(seed*9301+49297)%233280;return seed/233280};const base=[[40,'P01'],[62,'P01'],[85,'P02'],[98,'P02'],[110,'P03'],[121,'P03'],[133,'P04'],[140,'P04'],[72,'P05'],[128,'P05'],[55,'P06'],[146,'P06']];
-    base.forEach(([g,p],i)=>{const cam=Math.round((g+(rnd()-.4)*8)*2)/2;S.acc.push({id:Date.now()+i,at:new Date().toISOString(),pid:p,mv:A.mv,side:A.side,cam,gon:g,q:80+Math.round(rnd()*18),src:'demo',demo:true})});ACC.save(S.acc);D.accRefresh();toast('أُضيفت 12 قراءة مثال (موسومة "مثال")');return true}
-  if(t.closest('[data-acccsv]')){if(!S.acc.length){toast('لا توجد قراءات للتصدير');return true}const head=['id','datetime','participant','joint','movement','side','camera_deg','goniometer_deg','difference_deg','quality_pct','source'];
-    const lines=S.acc.map(r=>{const [j,m]=r.mv.split('_');return [r.id,r.at,r.pid,j,m,r.side,r.cam,r.gon,Math.round((r.cam-r.gon)*10)/10,r.q??'',r.src||''].map(x=>`"${String(x).replace(/"/g,'""')}"`).join(',')});
-    const blob=new Blob(['﻿'+head.join(',')+'\n'+lines.join('\n')],{type:'text/csv;charset=utf-8'});downloadBlob(blob,`mada-accuracy-${new Date().toISOString().slice(0,10)}.csv`);toast('تم تصدير الملف');return true}
-  return false};
 function downloadBlob(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500)}
 D.lrCard=function(){const p=W0().plan,lim=S.settings.lrDiff||15;
   const rows=p.movements.map(mv=>{const k=mvKey(mv),ko=mvKey(mv,mv.s==='right'?'left':'right');const a=romPts(k).slice(-1)[0],b=romPts(ko).slice(-1)[0];if(!a||!b)return null;
@@ -1559,7 +1486,6 @@ D.click=function(e){
   if(t.closest('[data-pdf]')){REPORT.pdf();return}
   if(t.closest('[data-fhir]')){REPORT.fhir();return}
   if(D.extra(e))return;
-  if(R.D.page==='accuracy'&&D.accClick(e))return;
   if(el=t.closest('[data-open]')){R.D.pid=el.dataset.open;R.D.page='patient';R.D.tab='summary';D.re();window.scrollTo(0,0);return}
   if(el=t.closest('[data-tab]')){R.D.tab=el.dataset.tab;D.re();return}
   if(t.closest('[data-newplan]')){D.startWizard(true);return}
@@ -1815,7 +1741,7 @@ KP.camera=n=>{
     <div class="cam-simple">
       <div class="card" style="display:grid;gap:12px"><b class="h" style="font-size:17px">شاهدي الحركة أولًا</b>${M.video?`<div class="viewer" style="aspect-ratio:4/5;max-height:440px;margin-inline:auto"><video id="instr" src="${VIDEO}" muted playsinline controls preload="metadata"></video></div>`:MOTION[mv.j+'_'+mv.m]?(location.protocol==='file:'?mvPlayer(mv.j+'_'+mv.m):mvVideo(mv.j+'_'+mv.m)):`<div style="background:var(--soft);border-radius:14px;display:grid;place-items:center;padding:10px">${fig(M.f).replace('<svg','<svg style="height:230px;max-width:100%"')}</div>`}<div class="muted">${lv?lv.how:'هذه الحركة تُقاس من صورة.'}</div></div>
       <div class="card" style="display:grid;gap:14px;align-content:start"><b class="h" style="font-size:17px">جهّزي المكان</b>
-        <div class="howto">${isHand?'<div><i>✋</i>اليد قريبة 30–50 سم</div><div><i>💡</i>إضاءة جيدة</div><div><i>📱</i>الجوال ثابت</div>':'<div><i>📏</i>الجوال على بُعد 2–3 متر</div><div><i>🧍</i>قِفي من الجنب</div><div><i>💡</i>إضاءة جيدة</div>'}</div>
+        <div class="howto">${isHand?'<div><i>✋</i>اليد قريبة 30–50 سم</div><div><i>💡</i>إضاءة جيدة</div><div><i>📱</i>الجوال ثابت</div>':`<div><i>📏</i>الجوال على بُعد 2–3 متر</div><div><i>🧍</i>${(LIVE[mv.j+'_'+mv.m]||{}).view==='front'?'قِفي مواجهة للكاميرا':jointName(mv.j,C.side||mv.s)+' جهة الكاميرا'}</div><div><i>👖</i>ملابس ضيقة أو شورت</div><div><i>💡</i>إضاءة جيدة</div>`}</div>
         ${isHand?'':`<img src="${IMG.hero}" alt="الجوال على حامل والطفلة واقفة من الجنب على بعد مترين" style="border-radius:14px">`}
         ${lv?`<button class="btn lg block" id="live">${ic('camera')} شغّلي الكاميرا</button>`:`<button class="btn lg block" data-k="upload">${ic('upload')} قياس من صورة</button>`}
         <button class="link" id="go" style="justify-self:center">أو شاهدي عرضًا تجريبيًا</button></div></div>`;}
@@ -1952,7 +1878,7 @@ const Cloud={client:null,ch:null,room:'',status:'off',msg:'',cid:Math.random().t
     else if(ev.kind==='msg'){const th=S.msgs.wateen;if(p.from==='kid'){th.push({me:false,t:p.t,at:'الآن'});if(!S.alerts.some(a=>a.id==='c'+ev.id))S.alerts.unshift({id:'c'+ev.id,pid:'wateen',sev:'info',cat:'sym',title:'رسالة جديدة من ولي الأمر',text:p.t,time:'الآن',read:false})}else{th.push({me:true,sys:!!p.sys,t:p.t,at:'الآن'});if(live)S.kidUnread=(S.kidUnread||0)+1}if(live)toast('رسالة جديدة')}
     else if(ev.kind==='plan'){const w=W0();w.plan=p.plan;w.planActive=true;S.kidNotice=true;S.medStatus=Object.fromEntries(p.plan.meds.map(m=>[m.id,S.medStatus[m.id]||'pending']));if(live)toast('وصلت خطة متابعة جديدة من الطبيبة')}
     }catch(e){console.warn('apply',ev,e)}},
-  refresh(){try{if(R.route==='doc'){if(!['accuracy','wizard'].includes(R.D.page)){const y=scrollY;D.re();scrollTo(0,y)}}else if(R.route==='kid'){if(!['camera','upload','symptoms','result'].includes(R.K.page)){const y=scrollY;K.go(R.K.page);scrollTo(0,y)}}}catch(e){}},
+  refresh(){try{if(R.route==='doc'){if(R.D.page!=='wizard'){const y=scrollY;D.re();scrollTo(0,y)}}else if(R.route==='kid'){if(!['camera','upload','symptoms','result'].includes(R.K.page)){const y=scrollY;K.go(R.K.page);scrollTo(0,y)}}}catch(e){}},
   set(s,msg){this.status=s;this.msg=msg||'';$$('[data-cloudbox]').forEach(el=>{el.innerHTML=Cloud.box()})},
   label(){return {off:['gray','غير مفعّلة'],connecting:['info','جارٍ الاتصال…'],on:['ok','متصلة الآن'],error:['bad','خطأ في الاتصال']}[this.status]},
   box(){const c=this.conf(),[cls,l]=this.label();
@@ -2046,20 +1972,20 @@ K.live=function(n,head,C,mv,M){
   if(!cfg){n.innerHTML=head+`<div class="card" style="display:grid;gap:12px;justify-items:center;text-align:center;padding:30px">${fig(M.f).replace('<svg','<svg style="height:180px"')}<b class="h">${M.ar} تحتاج قياسًا يدويًا حاليًا</b><span class="muted" style="max-width:460px">حركات الدوران لا تظهر بوضوح في صورة ثنائية الأبعاد من كاميرا واحدة. يمكنك رفع صورة وتحديد النقاط يدويًا.</span><div class="row" style="gap:8px"><button class="btn" data-k="upload">${ic('upload')} قياس يدوي من صورة</button><button class="btn white" data-k="assess">رجوع</button></div></div>`;return}
   const side=C.side||mv.s,isHand=cfg.model==='hand',best=cfg.best||'max';const sayMv=SAY[mv.m]||('ابدئي '+M.ar+' ببطء');
   n.innerHTML=head+`<div class="live3">
-    <div class="card tips" style="display:grid;gap:10px;align-content:start"><b class="h">٣ خطوات</b><ol style="margin:0;padding-inline-start:18px;display:grid;gap:8px"><li>${isHand?'ضعي اليد داخل الإطار المنقّط':'قِفي داخل الإطار المنقّط حتى يصير أخضر'}</li>${C.test?'<li>ثبّت المفصل وضع الجونيوميتر عليه</li><li>لما يصير الزر فعّال اضغط "التقاط القراءة"، ثم اكتب قراءة الجونيوميتر واحفظ</li>':'<li>اضغطي "ابدئي القياس" وأدّي الحركة ببطء</li><li>ثبّتي ثانيتين عند أقصى حد، ثم "إنهاء"</li>'}</ol>
+    <div class="card tips" style="display:grid;gap:10px;align-content:start"><b class="h">٣ خطوات</b><ol style="margin:0;padding-inline-start:18px;display:grid;gap:8px"><li>${isHand?'ضعي اليد داخل الإطار المنقّط':'قِفي داخل الإطار المنقّط حتى يصير أخضر'}</li><li>اضغطي "ابدئي القياس" وأدّي الحركة ببطء</li><li>ثبّتي ثانيتين عند أقصى حد، ثم "إنهاء"</li></ol>
       <div class="note">${ic('lock')} الفيديو لا يُرفع، التحليل داخل الجهاز.</div></div>
     <div class="card" style="display:grid;gap:12px">
       <div class="live-view" id="lv"><video id="cv" playsinline muted autoplay></video><canvas id="cc"></canvas><div class="guide" id="lguide">${isHand?'<svg viewBox="0 0 200 240"><path d="M70 230 L70 150 Q40 120 40 95 Q42 82 56 90 L72 110 L72 40 Q74 26 86 28 Q96 30 96 44 L96 100 L98 22 Q100 8 112 10 Q124 12 122 26 L120 100 L126 36 Q128 22 140 24 Q152 26 150 40 L144 108 L152 64 Q156 52 166 56 Q176 60 172 76 L160 150 Q150 190 140 230"/></svg>':'<svg viewBox="0 0 120 300"><circle cx="62" cy="28" r="18"/><path d="M50 52 Q44 60 44 80 L42 150 Q42 160 50 162 L50 290 M74 52 Q82 60 80 80 L82 150 Q82 160 74 162 L74 290 M50 160 L74 160"/><path d="M48 60 Q34 100 40 140 M76 60 Q86 100 80 140"/></svg>'}</div><div class="lstate"><span id="lstate">جارٍ التشغيل…</span></div><span class="rec" id="lrec" hidden>00:00</span><div class="cdown" id="lcd" hidden></div><div class="otip" id="ltip">جارٍ تشغيل الكاميرا وتحميل نموذج تحديد النقاط…</div></div>
-      <div class="row" style="justify-content:center;gap:10px;flex-wrap:wrap"><button class="ib" id="lvoice" aria-label="التعليمات الصوتية" aria-pressed="${VOICE.on}" title="التعليمات الصوتية">${VOICE.on?'🔊':'🔇'}</button><button class="ib" id="lflip" aria-label="تبديل الكاميرا">${ic('swap')}</button>${C.test?`<button class="btn lg" id="lcap" disabled>${ic('target')} التقاط القراءة الآن</button>`:`<button class="btn lg" id="lstart" disabled>${ic('camera')} ابدئي القياس</button><button class="btn out lg" id="lstop" hidden>${ic('check')} إنهاء</button>`}</div></div>
+      <div class="row" style="justify-content:center;gap:10px;flex-wrap:wrap"><button class="ib" id="lvoice" aria-label="التعليمات الصوتية" aria-pressed="${VOICE.on}" title="التعليمات الصوتية">${VOICE.on?'🔊':'🔇'}</button><button class="ib" id="lflip" aria-label="تبديل الكاميرا">${ic('swap')}</button><button class="btn lg" id="lstart" disabled>${ic('camera')} ابدئي القياس</button><button class="btn out lg" id="lstop" hidden>${ic('check')} إنهاء</button></div></div>
     <div class="card" style="display:grid;gap:12px;align-content:start;text-align:center"><span class="muted small">الزاوية الآن · ${M.ar}</span><div class="bigang ltr" id="lnow">--°</div>
       <div class="symbox" style="background:var(--soft)"><span class="muted small">${best==='min'?'أفضل فرد مسجّل (الأقل)':'أقصى زاوية ثابتة مسجّلة'}</span><b class="ltr" id="lmax" style="font-size:28px;color:var(--primary)">--°</b></div>
       <div class="small" id="lq"><span class="pill gray">بانتظار ${isHand?'اليد':'الجسم'}</span></div>
       <div class="qual" id="lqual"><div class="row" style="justify-content:space-between"><span class="small">جودة القياس</span><b class="ltr" id="lqv">--</b></div><div class="qbar"><i id="lqb" style="width:0"></i></div><span class="muted tiny">${jointName(mv.j,side)} · تُقبل القراءة فقط إذا كانت الجودة 65٪ أو أكثر</span></div>
       <div class="muted tiny">${isHand?'تحديد 21 نقطة في اليد: MediaPipe Hand Landmarker':'تحديد 33 نقطة في الجسم: MediaPipe Pose'} (Google). يُحتسب الرقم فقط إذا ثبت لعدة إطارات متتالية لتجنب القراءات الخاطئة.</div></div></div>`;
   const video=$('#cv',n),canvas=$('#cc',n),ctx=canvas.getContext('2d'),tip=$('#ltip',n),view=$('#lv',n);
-  let stream=null,raf=0,facing=isHand?'user':'environment',measuring=false,t0=0,bestV=null,bestQ=0,lastTs=-1,alive=true,hist=[],medHist=[],prevMed=null,stableN=0,holdBase=null,stKey='',startV=null,holdT=0,saidHold=false,finished=false,cdT=[];
+  let farEma=null,stream=null,raf=0,facing=isHand?'user':'environment',measuring=false,t0=0,bestV=null,bestQ=0,lastTs=-1,alive=true,hist=[],medHist=[],prevMed=null,stableN=0,holdBase=null,stKey='',startV=null,holdT=0,saidHold=false,finished=false,cdT=[];
   const stop=()=>{alive=false;cancelAnimationFrame(raf);cdT.forEach(clearTimeout);VOICE.stop();if(stream)stream.getTracks().forEach(x=>x.stop());stream=null};K.cleanups.push(stop);
-  const fail=msg=>{const st=$('#lstate',n);if(st){st.className='warn';st.textContent='⚠️ تعذّر التشغيل'}if(C.test){tip.innerHTML=msg+'<br>تقدر تكتب قراءة الكاميرا يدويًا في خانة "قراءة الكاميرا".';return}tip.innerHTML=msg+`<br><button class="btn soft" id="lalt" style="margin-top:8px">${isHand?'قياس يدوي من صورة':'عرض تجريبي بالفيديو'}</button>`;const b=$('#lalt',n);if(b)b.onclick=()=>{if(isHand)K.go('upload');else{C.step=2;K.go('camera')}}};
+  const fail=msg=>{const st=$('#lstate',n);if(st){st.className='warn';st.textContent='⚠️ تعذّر التشغيل'}tip.innerHTML=msg+`<br><button class="btn soft" id="lalt" style="margin-top:8px">${isHand?'قياس يدوي من صورة':'عرض تجريبي بالفيديو'}</button>`;const b=$('#lalt',n);if(b)b.onclick=()=>{if(isHand)K.go('upload');else{C.step=2;K.go('camera')}}};
   async function startCam(){
     if(stream)stream.getTracks().forEach(x=>x.stop());
     if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){fail('المتصفح لا يسمح بالكاميرا هنا. افتح الموقع من رابطه المباشر على Safari أو Chrome.');return false}
@@ -2092,7 +2018,10 @@ K.live=function(n,head,C,mv,M){
     if(pose&&!isHand){const ys=pose.filter(l=>(l.visibility??1)>.5).map(l=>l.y);const hgt=Math.max(...ys)-Math.min(...ys);if(hgt<.3)return {err:'اقتربي قليلًا من الكاميرا',pts,far:1}
       // body orientation: shoulder width relative to torso length (wide = facing the camera, narrow = side-on)
       const ls=P(pose,W,H,11),rs=P(pose,W,H,12),lh=P(pose,W,H,23),rh=P(pose,W,H,24);const sw=Math.hypot(ls.x-rs.x,ls.y-rs.y),tl=Math.hypot((ls.x+rs.x-lh.x-rh.x)/2,(ls.y+rs.y-lh.y-rh.y)/2);
-      if(tl>0&&Math.min(ls.v,rs.v,lh.v,rh.v)>.3){const r=sw/tl;if(cfg.view==='side'&&r>.5)return {err:'لفّي جانبيًا، أنتِ مواجهة للكاميرا',pts,face:1};if(cfg.view==='front'&&r<.3)return {err:'قفي مواجهة للكاميرا',pts,face:1}}}
+      if(tl>0&&Math.min(ls.v,rs.v,lh.v,rh.v)>.3){const r=sw/tl;if(cfg.view==='side'&&r>.5)return {err:'لفّي جانبيًا، أنتِ مواجهة للكاميرا',pts,face:1};if(cfg.view==='front'&&r<.3)return {err:'قفي مواجهة للكاميرا',pts,face:1}}
+      // side view: the tracked limb must be the one nearer the camera (MediaPipe guesses hidden joints poorly)
+      if(cfg.view==='side'){const oth=side==='right'?'left':'right';const ks=cfg.pts.filter(k=>PL[k]);let dz=0;ks.forEach(k=>{dz+=(pose[PL[k][side]].z??0)-(pose[PL[k][oth]].z??0)});dz/=ks.length||1;
+        farEma=farEma==null?dz:farEma*.85+dz*.15;if(farEma>.04)return {err:`لفّي للجهة الثانية: ${jointName(mv.j,side)} لازم تكون قريبة من الكاميرا`,pts,wrongSide:1}}}
     const diag=Math.hypot(W,H);if(Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y)<diag*.04||Math.hypot(pts[2].x-pts[1].x,pts[2].y-pts[1].y)<diag*.025)return {err:'المفصل قريب جدًا أو بعيد، عدّل المسافة',pts};
     const inner=angAt(...pts);if(inner==null)return {err:'تعذّر الحساب'};
     let val=cfg.calc==='flex'?180-inner:cfg.calc==='inner'?inner:cfg.calc==='abd'?Math.max(0,inner-90):Math.abs(inner-90);
@@ -2133,21 +2062,19 @@ K.live=function(n,head,C,mv,M){
       // auto-finish: held within 3° of the best reading for 2 s, after a real movement (≥15° from the start)
       if(bestV!=null&&startV!=null&&stableN>=6&&Math.abs(v-bestV)<=3&&Math.abs(bestV-startV)>=15&&ts-t0>3000){if(!holdT||Math.abs(bestV-holdBase)>2){holdT=ts;holdBase=bestV}if(!saidHold){saidHold=true;VOICE.say('ممتاز، اثبتي',true)}if(ts-holdT>2000&&!finished){finished=true;VOICE.say('تم!',true);VOICE.beep(1320,.3);setTimeout(()=>{if(alive)$('#lstop',n).click()},500)}}else{holdT=0;if(Math.abs(v-(bestV??v))>6)saidHold=false}
       const s=Math.floor((ts-t0)/1000);$('#lrec',n).textContent='00:'+String(s).padStart(2,'0');tip.textContent=s<2?'ابدئي الحركة ببطء…':'ثبّتي ثانيتين عند أقصى حد، ثم اضغطي إنهاء'}
-    else tip.textContent=C.test?'ثبّت المفصل، ضع الجونيوميتر، ثم اضغط "التقاط القراءة"':'اضغطي "ابدئي القياس" ثم أدّي الحركة';
-    if(C.test){const cb=$('#lcap',n);if(cb){const okNow=hist.length>=5&&stableN>=6&&qual>=65;cb.disabled=!okNow;cb._v=v;cb._q=qual}}
+    else tip.textContent='اضغطي "ابدئي القياس" ثم أدّي الحركة';
   }
   $('#lflip',n).onclick=async()=>{facing=facing==='environment'?'user':'environment';await startCam()};
   $('#lvoice',n).onclick=e=>{S.settings.voice=!VOICE.on;const b=e.currentTarget;b.textContent=VOICE.on?'🔊':'🔇';b.setAttribute('aria-pressed',VOICE.on);if(VOICE.on){VOICE.beep(660,.1);VOICE.say('التعليمات الصوتية شغّالة',true)}else VOICE.stop()};
-  if(C.test){$('#lcap',n).onclick=e=>{const b=e.currentTarget;if(b.disabled)return;VOICE.beep(1200,.2);VOICE.say('تم التقاط القراءة',true);C.onCapture&&C.onCapture({v:b._v,q:b._q})}}
-  else $('#lstart',n).onclick=()=>{const cd=$('#lcd',n);$('#lstart',n).disabled=true;cdT.forEach(clearTimeout);cdT=[];
+  $('#lstart',n).onclick=()=>{const cd=$('#lcd',n);$('#lstart',n).disabled=true;cdT.forEach(clearTimeout);cdT=[];
     const begin=()=>{cd.hidden=true;measuring=true;bestV=null;bestQ=0;startV=null;holdT=0;saidHold=false;finished=false;t0=performance.now();$('#lmax',n).textContent='--°';$('#lrec',n).hidden=false;$('#lstart',n).hidden=true;$('#lstop',n).hidden=false;VOICE.beep(1050,.25);VOICE.say(sayMv,true)};
     if(matchMedia('(prefers-reduced-motion: reduce)').matches&&!VOICE.on){begin();return}
     [['3','ثلاثة'],['2','اثنين'],['1','واحد']].forEach(([d,w],i)=>cdT.push(setTimeout(()=>{cd.hidden=false;cd.textContent=d;VOICE.beep(760,.12);VOICE.say(w,true)},i*900)));cdT.push(setTimeout(begin,2700))};
-  if(!C.test)$('#lstop',n).onclick=()=>{if(bestV==null){toast('لم تُسجَّل قراءة ثابتة بعد. أدِّ الحركة وثبّت ثانيتين');VOICE.say('ما سجّلنا قراءة ثابتة. ثبّتي ثانيتين');return}C.result=bestV;C.quality=bestQ;C.side=side;C.step=4;stop();K.go('result')};
+  $('#lstop',n).onclick=()=>{if(bestV==null){toast('لم تُسجَّل قراءة ثابتة بعد. أدِّ الحركة وثبّت ثانيتين');VOICE.say('ما سجّلنا قراءة ثابتة. ثبّتي ثانيتين');return}C.result=bestV;C.quality=bestQ;C.side=side;C.step=4;stop();K.go('result')};
   (async()=>{
     const ok=await startCam();if(!ok||!alive)return;
     try{if(cfg.model==='pose'||(cfg.pts&&cfg.pts.includes('elbow')))await K.loadModel('pose');if(isHand)await K.loadModel('hand')}catch(e){fail('تعذّر تحميل نموذج تحديد النقاط. تأكد من اتصال الإنترنت ثم أعد المحاولة.');return}
-    if(!alive)return;if(!C.test)$('#lstart',n).disabled=false;loop();
+    if(!alive)return;$('#lstart',n).disabled=false;loop();
   })();
 };
 KP.result=n=>{
